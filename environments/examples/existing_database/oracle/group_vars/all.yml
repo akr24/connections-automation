@@ -32,7 +32,7 @@ sudo_group:                                      wheel
 cnx_deploy_type:                                 medium
 ldap_user_mail_domain:                           "connections.example.com"
 
-db2_download_location:                           http://{{ groups['installer'][0] }}:8001/DB2
+oracle_download_location:                        http://{{ groups['installer'][0] }}:8001/Oracle
 tdi_download_location:                           http://{{ groups['installer'][0] }}:8001/TDI
 connections_wizards_download_location:           http://{{ groups['installer'][0] }}:8001/Connections7
 iim_repository_url:                              http://{{ groups['installer'][0] }}:8001/was855
@@ -44,19 +44,6 @@ cnx_docs_download_location:                      http://{{ groups['installer'][0
 cnx_repository_url:                              http://{{ groups['installer'][0] }}:8001/Connections7
 component_pack_download_location:                http://{{ groups['installer'][0] }}:8001/cp
 
-iim_bin_file:                                    "agent.installer.linux.gtk.x86_64_1.9.1003.20200730_2125.zip"
-iim_version:                                     "1.9.1003.20200730_2125"
-
-was_files:
-  - { "file_name": "CIK2HML.zip", "check_sum": "b1333962ba4b25c8632c7e4c82b472350337e99febac8f70ffbd551ca3905e83" }
-  - { "file_name": "CIK2JML.zip", "check_sum": "b73ae070656bed6399a113c2db9fb0abaf5505b0d41c564bf2a58ce0b1e0dcd2" }
-  - { "file_name": "CIK2IML.zip", "check_sum": "440b7ed82089d43b1d45c1e908bf0a1951fed98f2542b6d37c8b5e7274c6b1c9" }
-
-ihs_files: 
-  - { "file_name": "CIK1VML.zip", "check_sum": "d63c59de4a5548e3d26e71fefb76193d41ac7585bc450c1e504287e0a6f746c9" }
-  - { "file_name": "CIK1WML.zip", "check_sum": "ac00e7ab43cc528fe7f3ccd69aeb6564a2e738e7bc6e30e71fd2e0d4bd64f39e" }
-  - { "file_name": "CIK1XML.zip", "check_sum": "94e3d9b70b139ad5fa0578da6857b295c5d2370c1b6ecb544c1e5757406fec90" }
-
 cnx_updates_enabled:                             True
 
 dmgr_hostname:                                   "{{ hostvars[groups['dmgr'][0]]['inventory_hostname'] }}"
@@ -65,19 +52,40 @@ smtp_hostname:                                   localhost
 
 connections_admin_password:                      "{{ ldap_user_admin_password }}"
 
-db_username:                                     LCUSER
-db_concord_username:                             docsuser
+db_type:                                         Oracle
+db_username:                                     EMPINST
+db_concord_username:                             CONCORDDB
 db_hostname:                                     "{{ hostvars[groups['db_servers'][0]]['inventory_hostname'] }}"
-db_port:                                         50000
-#db_jdbc_file:                                    /opt/IBM/db2/V11.1/java
+db_name:                                         LSCONN
+db_port:                                         1521
+db_jdbc_file:                                    /opt/oracle/product/19.0.0/db_1/jdbc/lib
 db_docs_jdbc_file:                               "{{ db_jdbc_file }}"
-db_type:                                         DB2
-setup_db2_jdbc:                                  True
+
+setup_oracle_jdbc:                               True
+ora_rsp_oracle_base:                             /opt/oracle
+ora_rsp_oracle_home:                             /opt/oracle/product/19.0.1/db_1
+ora_rsp_starter_db_name:                         LSCONN
+
+activities_db:                                   { 'name': 'LSCONN', 'user': 'OAUSER' }
+blogs_db:                                        { 'name': 'LSCONN', 'user': 'BLOGSUSER' }
+dogear_db:                                       { 'name': 'LSCONN', 'user': 'DOGEARUSER' }
+communities_db:                                  { 'name': 'LSCONN', 'user': 'SNCOMMUSER' }
+files_db:                                        { 'name': 'LSCONN', 'user': 'FILESUSER' }
+forums_db:                                       { 'name': 'LSCONN', 'user': 'DFUSER' }
+homepage_db:                                     { 'name': 'LSCONN', 'user': 'HOMEPAGEUSER' }
+metrics_db:                                      { 'name': 'LSCONN', 'user': 'METRICSUSER' }
+mobile_db:                                       { 'name': 'LSCONN', 'user': 'MOBILEUSER' }
+profiles_db:                                     { 'name': 'LSCONN', 'user': 'PROFUSER' }
+push_db:                                         { 'name': 'LSCONN', 'user': 'PNSUSER' }
+wikis_db:                                        { 'name': 'LSCONN', 'user': 'WIKISUSER' }
+icec_db:                                         { 'name': 'LSCONN', 'user': 'ICEC' }
+ic360_db:                                        { 'name': 'LSCONN', 'user': 'ESSUSER' }
 
 cnx_force_repopulation:                          True
 
 cnx_enable_moderation:                           true
 cnx_enable_invite:                               true
+cnx_enable_full_icec:                            true
 
 enable_prometheus_jmx_exporter:                  True
 
@@ -144,7 +152,7 @@ cnx_data_path_on_cnx_server:                     /opt/IBM/SharedArea
 
 docs_url:                                        "{{ cnx_application_ingress }}"
 
-force_destroy_db2:                               True
+force_destroy_oracle:                            True
 force_destroy_ihs:                               True
 force_destroy_websphere:                         True
 force_destroy_kubernetes:                        True
