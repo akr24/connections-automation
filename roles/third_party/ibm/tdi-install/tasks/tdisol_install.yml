@@ -1,20 +1,26 @@
-- name:                  "Going to update tdisol: {{ __cnx_updates_enabled }}"
+- name:                  "Going to update tdisol from Connections kit: {{ __cnx_updates_enabled }} "
   debug:
     var:                 "{{ __cnx_updates_enabled }}"
+
+- name:                  "Going to update tdisol from a separate tdisol tar: {{ tdi_sol_location }}"
+  debug:
+    var:                 tdi_sol_location is defined
+  when:
+    - tdi_sol_location is defined
 
 - name:                  Clean up installation folder(s)
   file:
     path:                "{{ __cnx_extraction_folder }}"
     state:               absent
   when:
-    - __cnx_updates_enabled  |bool
+    - __cnx_updates_enabled  |bool or tdi_sol_location is defined
 
 - name:                  Create installation folder
   file:
     path:                "{{ __cnx_extraction_folder }}"
     state:               directory
   when:
-    - __cnx_updates_enabled  |bool
+    - __cnx_updates_enabled  |bool or tdi_sol_location is defined
 
 - name:                  Download and unzip installation {{ __cnx_package_name }} to the {{ __cnx_extraction_folder }}
   unarchive:
@@ -23,6 +29,7 @@
     remote_src:          yes
   when:
     - __cnx_updates_enabled  |bool
+    - tdi_sol_location is not defined
   register: download_and_unpack_tdisol_cnx
   until: download_and_unpack_tdisol_cnx is succeeded
   retries: 3
@@ -32,14 +39,14 @@
     path:                "{{ __tdi_sol_dest }}"
     state:               absent
   when:
-    - __cnx_updates_enabled  |bool
+    - __cnx_updates_enabled  |bool or tdi_sol_location is defined
 
 - name:                  "Create {{ __tdi_sol_dest }} folder"
   file:
     path:                "{{ __tdi_sol_dest }}"
     state:               directory
   when:
-    - __cnx_updates_enabled  |bool
+    - __cnx_updates_enabled  |bool or tdi_sol_location is defined
 
 - name:                  Set up tdisol
   unarchive:
@@ -47,7 +54,7 @@
     dest:                "{{ __tdi_sol_dest }}"
     remote_src:          yes
   when:
-    - __cnx_updates_enabled  |bool
+    - __cnx_updates_enabled  |bool or tdi_sol_location is defined
   register: download_and_unpack_tdisol
   until: download_and_unpack_tdisol is succeeded
   retries: 3
@@ -153,7 +160,7 @@
    - "sqljdbc42.jar"
   when:
     - "'mssql_servers' in groups"
-    - "'1.8' in jre_version_stat.stdout"    
+    - "'1.8' in jre_version_stat.stdout"
 
 - name:                  "Run collect_dns.sh"
   command:               "sh {{ __tdi_sol_dest }}/TDI/collect_dns.sh"
