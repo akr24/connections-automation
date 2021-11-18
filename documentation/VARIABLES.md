@@ -27,6 +27,8 @@ See [Sample Inventories](https://github.com/HCL-TECH-SOFTWARE/connections-automa
 
 [Component Pack Infra Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#component-pack-infra-variables)
 
+[NFS Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#nfs-variables)
+
 ### LDAP Variables
 Name | Default | Description
 ---- | --------| -------------
