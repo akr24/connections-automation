@@ -25,8 +25,6 @@ See [Sample Inventories](https://github.com/HCL-TECH-SOFTWARE/connections-automa
 
 [LDAP Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#ldap-variables)
 
-[LDAP For MT Setup Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#ldap-for-mt-setup-variables)
-
 [CP Infra Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#cp-infra-variables)
 
 ### WebSphere Variables
