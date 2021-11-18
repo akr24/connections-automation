@@ -3,6 +3,16 @@
 See [Sample Inventories](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/environments/examples) where some of these variables are used.
 ## Table of contents
 
+[LDAP Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#ldap-variables)
+
+[Database Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#database-variables)
+
+[DB2 Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#db2-variables)
+
+[Oracle Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#oracle-variables)
+
+[MSSQL Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#mssql-variables)
+
 [WebSphere Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#websphere-variables)
 
 [IHS Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#ihs-variables)
@@ -15,17 +25,101 @@ See [Sample Inventories](https://github.com/HCL-TECH-SOFTWARE/connections-automa
 
 [Docs Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#docs-variables)
 
-[Database Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#database-variables)
+[Component Pack Infra Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#component-pack-infra-variables)
 
-[DB2 Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#db2-variables)
+### LDAP Variables
+Name | Default | Description
+---- | --------| -------------
+setup_fake_ldap_users | true | true creates dummy ldap users
+ldap_bind_pass | password | Password for simple authentication
+ldap_realm | dc=cnx,dc=pnp-hcl,dc=com | This directive specifies the DN suffix of queries that will be passed to this backend database
+ldap_admin_user | Admin | Ldap admin user
+ldap_nr_of_users | 2500 | Ldap number of users to be created
+ldap_userid | jjones | User id for the ldap users. It is postfixed with the user number. e.g. with default ldap_userid as 'jjones', user1 will be created with user id - jjones1
+ldap_user_password | password | Password for the ldap users
+ldap_user_admin_password | password | Ldap user admin password
+ldap_user_mail_domain | connections.example.com | Ldap user email domain
+ldap_setup_internal | false | true sets up internal users
 
-[Oracle Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#oracle-variables)
+### Database Variables
+Name | Default | Description
+---- | --------| -------------
+db_type | DB2 | Database type to be passed to the Connections installer
+db_username | LCUSER | Database user to be passed to the Connections installer
+db_password | password | Database user password to be passed to the Connections installer
+db_port | 50000 | TCP/IP service port
+db_hostname | *none* - required | Database hostname
+db_jdbc_file | /opt/IBM/db2/V11.1/java | Database JDBC driver path
 
-[MSSQL Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#mssql-variables)
+### DB2 Variables
+Name | Default | Description
+---- | --------| -------------
+db2_download_location | *none* - required | DB2 install kit location to download
+setup_db2_jdbc | false | true will install jdbc drivers to WAS nodes
+db2_user | db2inst1 | DB2 Instance owner
+db2_installation_folder | /opt/IBM/db2/V11.1 | DB2 installation folder path
+db2_instance_homedir | /home/db2inst1 | DB2 Instance owner home directory
+db2_package_name | v11.1.4fp5_linuxx64_universal_fixpack.tar.gz | DB2 package name
+db2_license_file | CNB23ML.zip | DB2 license file name
+db2_instance | inst1 | logical Database Manager environment for DB2
+db2_instance_type | ese | DB2 instance type
+db2_instance_group | db2group | DB2 instance group
+db2_instance_homedir | /home/db2inst1 | DB2 instance home directory
+db2_instance_autostat | YES |  True will enable the DB2 database instance for automatically start
+db2_instance_svcname | db2c_db2inst1 | DB2 instance service name
+db2_instance_port | 50000 | TCP/IP service port
+db2_instance_fcm_port | 60000 | port used by the Fast Communications Manager
+db2_instance_max_lnodes | 6 | Maximum node counts
+db2_instance_text_search | NO | Yes configures integrated Db2 Text Search server
+db2_instance_fenced_user | db2fenc1 | Fenced user to run user defined functions (UDFs) and stored procedures outside of the address space used by the Db2 database
+db2_instance_fenced_group | db2group | Fenced user group
+db2_instance_fenced_homedir | /home/db2fenc1 | Fenced user home directory
+db2_instance_default_lang | EN | DB2 instance default language
+install_latest_db2 | false | true will install IBM DB2 v11.5.6 and false will install IBM DB2 v11.1
 
-[LDAP Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#ldap-variables)
+### Oracle Variables
+Name | Default | Description
+---- | --------| -------------
+oracle_download_location | *none* - required | Oracle database download location
+setup_oracle_jdbc | false | true will install jdbc drivers to WAS nodes
+ora_rsp_oracle_base | /opt/oracle | Oracle database base location
+ora_rsp_oracle_home | /opt/oracle/product/19.0.1/db_1 | Oracle database home location
+ora_rsp_starter_db_name | LSCONN | Global Database Name
+oracle_package_name | LINUX.X64_193000_db_home.zip | Installer package name
+ora_rsp_install_option | INSTALL_DB_AND_CONFIG | The installation option can be - INSTALL_DB_SWONLY, INSTALL_DB_AND_CONFIG, UPGRADE_DB
+ora_rsp_unix_group_name | oinstall | Provide values for the OS groups to which OSDBA privileges needs to be granted
+ora_rsp_inventory_location | /opt/oracle | 
+ora_rsp_data_location | default( '/opt/oracle/data' ) | Database file location: directory for datafiles, control files, redo logs
+ora_rsp_data_rcvry_location | default( '/opt/oracle/recovery' ) | Backup and recovery location
+ora_rsp_install_edition | EE | Installation Edition of the component e.g. EE : Enterprise Edition, SE : Standard Edition, SEONE : Standard Edition One, PE : Personal Edition (WINDOWS ONLY)
+ora_rsp_exec_root_script | false | true for automatic root script execution
+ora_rsp_root_config_method | SUDO | Specify the configuration method to be used for automatic root script execution
+ora_rsp_starter_db_type | GENERAL_PURPOSE | Starter database type - GENERAL_PURPOSE, TRANSACTION_PROCESSING, DATAWAREHOUSE
+ora_rsp_starter_db_name | LSCONN | Starter database name
+ora_rsp_starter_charset | AL32UTF8 | Database character set
+ora_rsp_use_auto_mem_mgmt | false | true means use auto memory management
+ora_rsp_auto_mem_limit | 2048 | Specify the total memory allocation for the database
+ora_rsp_enable_recovery | true | true means enable recovery
+ora_rsp_storage_type | FILE_SYSTEM_STORAGE | Storage type can be - FILE_SYSTEM_STORAGE, ASM_STORAGE
+oracledb_exporter_version | oracledb_exporter.0.3.0rc1-ora18.5.linux-amd64 | Oracle database exporter version
+oracledb_exporter_release | 0.3.0rc1 | Binary release version
+oracledbexp_extraction_folder | /home/oracle | Oracle database exporter extraction folder path
+oracle_bashrc_file_path | /home/oracle/.bashrc | bashrc file path
+metrics_port | 9161 | Port to get metrics from the Oracle database
+oracledb_port | 1521 | TCP/IP service port
 
-[CP Infra Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#cp-infra-variables)
+### MSSQL Variables
+Name | Default | Description
+---- | --------| -------------
+setup_mssql_jdbc | false | true will install jdbc drivers to WAS nodes
+mssql_sa_password | Pa55w0rd | MSSQL user specified password
+mssql_accept_eula | Y | Y confirm your acceptance of the End-User Licensing Agreement
+mssql_pid | evaluation | Set the SQL Server edition or product key. Possible values include: Evaluation, Developer, Express, Web, Standard, Enterprise
+mssql_jdbc_installation_folder | /opt/mssql/jdbc/lib | MSSQL installation folder path
+mssql_jdbc_package_name | sqljdbc_6.0.8112.200_enu.tar.gz | MSSQL package name
+mssql_jdbc_tdi_enable | true | true downloads legacy drivers for TDI JRE
+mssql_create_admin_user | true | true creates extra admin user for MSSQL
+upgrade_tdi_jre | false | true upgrades jre
 
 ### WebSphere Variables
 Name | Default | Description
@@ -158,101 +252,7 @@ cnx_data_remote_path | /nfs/data/shared | NFS share of Connections data dir, `{{
 cnx_data_local_path | /mnt/cnx_data | path of local location to Connections data dir, if `{{ cnx_shared_storage_type }}` is `nfs`, `{{ cnx_data_remote_path }}` will mount to this directory
 cnx_data_path_on_cnx_server | /opt/IBM/SharedArea | local path of Connections data on the Connections server (i.e. where Docs extensions will be installed)
 
-### Database Variables
-Name | Default | Description
----- | --------| -------------
-db_type | DB2 | Database type to be passed to the Connections installer
-db_username | LCUSER | Database user to be passed to the Connections installer
-db_password | password | Database user password to be passed to the Connections installer
-db_port | 50000 | TCP/IP service port
-db_hostname | *none* - required | Database hostname
-db_jdbc_file | /opt/IBM/db2/V11.1/java | Database JDBC driver path
-
-### DB2 Variables
-Name | Default | Description
----- | --------| -------------
-db2_download_location | *none* - required | DB2 install kit location to download
-setup_db2_jdbc | false | true will install jdbc drivers to WAS nodes
-db2_user | db2inst1 | DB2 Instance owner
-db2_installation_folder | /opt/IBM/db2/V11.1 | DB2 installation folder path
-db2_instance_homedir | /home/db2inst1 | DB2 Instance owner home directory
-db2_package_name | v11.1.4fp5_linuxx64_universal_fixpack.tar.gz | DB2 package name
-db2_license_file | CNB23ML.zip | DB2 license file name
-db2_instance | inst1 | logical Database Manager environment for DB2
-db2_instance_type | ese | DB2 instance type
-db2_instance_group | db2group | DB2 instance group
-db2_instance_homedir | /home/db2inst1 | DB2 instance home directory
-db2_instance_autostat | YES |  True will enable the DB2 database instance for automatically start
-db2_instance_svcname | db2c_db2inst1 | DB2 instance service name
-db2_instance_port | 50000 | TCP/IP service port
-db2_instance_fcm_port | 60000 | port used by the Fast Communications Manager
-db2_instance_max_lnodes | 6 | Maximum node counts
-db2_instance_text_search | NO | Yes configures integrated Db2 Text Search server
-db2_instance_fenced_user | db2fenc1 | Fenced user to run user defined functions (UDFs) and stored procedures outside of the address space used by the Db2 database
-db2_instance_fenced_group | db2group | Fenced user group
-db2_instance_fenced_homedir | /home/db2fenc1 | Fenced user home directory
-db2_instance_default_lang | EN | DB2 instance default language
-install_latest_db2 | false | true will install IBM DB2 v11.5.6 and false will install IBM DB2 v11.1
-
-### Oracle Variables
-Name | Default | Description
----- | --------| -------------
-oracle_download_location | *none* - required | Oracle database download location
-setup_oracle_jdbc | false | true will install jdbc drivers to WAS nodes
-ora_rsp_oracle_base | /opt/oracle | Oracle database base location
-ora_rsp_oracle_home | /opt/oracle/product/19.0.1/db_1 | Oracle database home location
-ora_rsp_starter_db_name | LSCONN | Global Database Name
-oracle_package_name | LINUX.X64_193000_db_home.zip | Installer package name
-ora_rsp_install_option | INSTALL_DB_AND_CONFIG | The installation option can be - INSTALL_DB_SWONLY, INSTALL_DB_AND_CONFIG, UPGRADE_DB
-ora_rsp_unix_group_name | oinstall | Provide values for the OS groups to which OSDBA privileges needs to be granted
-ora_rsp_inventory_location | /opt/oracle | 
-ora_rsp_data_location | default( '/opt/oracle/data' ) | Database file location: directory for datafiles, control files, redo logs
-ora_rsp_data_rcvry_location | default( '/opt/oracle/recovery' ) | Backup and recovery location
-ora_rsp_install_edition | EE | Installation Edition of the component e.g. EE : Enterprise Edition, SE : Standard Edition, SEONE : Standard Edition One, PE : Personal Edition (WINDOWS ONLY)
-ora_rsp_exec_root_script | false | true for automatic root script execution
-ora_rsp_root_config_method | SUDO | Specify the configuration method to be used for automatic root script execution
-ora_rsp_starter_db_type | GENERAL_PURPOSE | Starter database type - GENERAL_PURPOSE, TRANSACTION_PROCESSING, DATAWAREHOUSE
-ora_rsp_starter_db_name | LSCONN | Starter database name
-ora_rsp_starter_charset | AL32UTF8 | Database character set
-ora_rsp_use_auto_mem_mgmt | false | true means use auto memory management
-ora_rsp_auto_mem_limit | 2048 | Specify the total memory allocation for the database
-ora_rsp_enable_recovery | true | true means enable recovery
-ora_rsp_storage_type | FILE_SYSTEM_STORAGE | Storage type can be - FILE_SYSTEM_STORAGE, ASM_STORAGE
-oracledb_exporter_version | oracledb_exporter.0.3.0rc1-ora18.5.linux-amd64 | Oracle database exporter version
-oracledb_exporter_release | 0.3.0rc1 | Binary release version
-oracledbexp_extraction_folder | /home/oracle | Oracle database exporter extraction folder path
-oracle_bashrc_file_path | /home/oracle/.bashrc | bashrc file path
-metrics_port | 9161 | Port to get metrics from the Oracle database
-oracledb_port | 1521 | TCP/IP service port
-
-### MSSQL Variables
-Name | Default | Description
----- | --------| -------------
-setup_mssql_jdbc | false | true will install jdbc drivers to WAS nodes
-mssql_sa_password | Pa55w0rd | MSSQL user specified password
-mssql_accept_eula | Y | Y confirm your acceptance of the End-User Licensing Agreement
-mssql_pid | evaluation | Set the SQL Server edition or product key. Possible values include: Evaluation, Developer, Express, Web, Standard, Enterprise
-mssql_jdbc_installation_folder | /opt/mssql/jdbc/lib | MSSQL installation folder path
-mssql_jdbc_package_name | sqljdbc_6.0.8112.200_enu.tar.gz | MSSQL package name
-mssql_jdbc_tdi_enable | true | true downloads legacy drivers for TDI JRE
-mssql_create_admin_user | true | true creates extra admin user for MSSQL
-upgrade_tdi_jre | false | true upgrades jre
-
-### LDAP Variables
-Name | Default | Description
----- | --------| -------------
-setup_fake_ldap_users | true | true creates dummy ldap users
-ldap_bind_pass | password | Password for simple authentication
-ldap_realm | dc=cnx,dc=pnp-hcl,dc=com | This directive specifies the DN suffix of queries that will be passed to this backend database
-ldap_admin_user | Admin | Ldap admin user
-ldap_nr_of_users | 2500 | Ldap number of users to be created
-ldap_userid | jjones | User id for the ldap users. It is postfixed with the user number. e.g. with default ldap_userid as 'jjones', user1 will be created with user id - jjones1
-ldap_user_password | password | Password for the ldap users
-ldap_user_admin_password | password | Ldap user admin password
-ldap_user_mail_domain | connections.example.com | Ldap user email domain
-ldap_setup_internal | false | true sets up internal users
-
-### CP Infra Variables
+### Component Pack Infra Variables
 Name | Default | Description
 ---- | --------| -------------
 containerd_version | 1.4.4-3.1.el7 | Containerd version to be installed
