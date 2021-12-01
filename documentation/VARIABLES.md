@@ -27,7 +27,11 @@ See [Sample Inventories](https://github.com/HCL-TECH-SOFTWARE/connections-automa
 
 [Component Pack Infra Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#component-pack-infra-variables)
 
+[Component Pack Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#component-pack-variables)
+
 [NFS Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#nfs-variables)
+
+[Cleanup Variables](https://github.com/HCL-TECH-SOFTWARE/connections-automation/tree/main/documentation/VARIABLES.md#cleanup-variables)
 
 ### LDAP Variables
 Name | Default | Description
@@ -66,7 +70,6 @@ db2_license_file | CNB23ML.zip | DB2 license file name
 db2_instance | inst1 | logical Database Manager environment for DB2
 db2_instance_type | ese | DB2 instance type
 db2_instance_group | db2group | DB2 instance group
-db2_instance_homedir | /home/db2inst1 | DB2 instance home directory
 db2_instance_autostat | YES |  True will enable the DB2 database instance for automatically start
 db2_instance_svcname | db2c_db2inst1 | DB2 instance service name
 db2_instance_port | 50000 | TCP/IP service port
@@ -90,7 +93,7 @@ ora_rsp_starter_db_name | LSCONN | Global Database Name
 oracle_package_name | LINUX.X64_193000_db_home.zip | Installer package name
 ora_rsp_install_option | INSTALL_DB_AND_CONFIG | The installation option can be - INSTALL_DB_SWONLY, INSTALL_DB_AND_CONFIG, UPGRADE_DB
 ora_rsp_unix_group_name | oinstall | Provide values for the OS groups to which OSDBA privileges needs to be granted
-ora_rsp_inventory_location | /opt/oracle | 
+ora_rsp_inventory_location | /opt/oracle |
 ora_rsp_data_location | default( '/opt/oracle/data' ) | Database file location: directory for datafiles, control files, redo logs
 ora_rsp_data_rcvry_location | default( '/opt/oracle/recovery' ) | Backup and recovery location
 ora_rsp_install_edition | EE | Installation Edition of the component e.g. EE : Enterprise Edition, SE : Standard Edition, SEONE : Standard Edition One, PE : Personal Edition (WINDOWS ONLY)
@@ -190,6 +193,7 @@ connections_wizards_download_location | *none* - required | Connections Wizard i
 cnx_package | HCL_Connections_7.0_lin.tar | Connections install kit file
 connections_wizards_package_name | HCL_Connections_7.0_wizards_lin_aix.tar | Connections Wizard kit file
 setup_connections_wizards | true | true will run the Connections database wizard
+cnx_force_repopulation | false | true will drop the Connections databases and recreate them in `setup-connections-wizards.yml` playbook
 cnx_major_version | "7" | Connections major version to install
 cnx_fixes_version | *none* - optional | If defined (eg. 6.5.0.0_CR1) will install the CR version
 cnx_fixes_files | *none* - optional | If defined (eg. HC6.5_CR1.zip") and cnx_fixes_version is set, will download the CR install kit
@@ -198,12 +202,15 @@ connections_admin | jjones1 | User to be passed to the Connections installer as 
 connections_admin_password | password | password for Connections admin user
 cnx_deploy_type | small | Connections deployment option (i.e. small/medium/large)
 skip_nfs_mount_for_connections | false | false will setup NFS mount points for Connections data and message store
+cnx_shared_area | /opt/IBM/SharedArea | Connections shared data location mount point
+cnx_shared_area_nfs | /nfs/data/shared | Connections shared data NFS share
+cnx_message_store | /opt/HCL/MessageStore | Connections bus SIB location mount point
+cnx_message_store_nfs | /nfs/data/messageStores | Connections bus SIB NFS share
 cnx_enable_invite | false | true will configure selfregistration-config.xml for Invite
 cnx_enable_moderation | false | true will install and configure Moderation
 global_moderator | *none* - optional | Global moderator user
 cnx_enable_full_icec | false | true will configure full CEC
 cnx_enable_lang_selector | false | true will enable and add additional lanaguages to the language selector
-cnx_force_repopulation | false | true will drop the Connections databases and recreate them in `setup-connections-wizards.yml` playbook
 cnx_updates_enabled | false | true will upgrade Connections if a new version is available in cnx_repository_url
 db_version | "7.0" | Determines the set of databases to create/drop (eg. 7.0, 6.5)
 cnx_db_updates_url | *none* - required for 6.5CR1 with DB2 | database schema upgrade zip download location (6.5 CR1 only)
@@ -213,12 +220,13 @@ db_username | LCUSER | Database user to be passed to the Connections installer
 db_password | password | Database user password to be passed to the Connections installer
 db_port | 50000 | Database user password to be passed to the Connections installer
 smtp_hostname | *none* - required | <for future use, you can set it to *localhost*>
-ifix_apar | *none* - required when install Connections fix | APAR number of fix 
+ifix_apar | *none* - required when install Connections fix | APAR number of fix
 ifix_file | *none* - required when install Connections fix | fix file name from `{{ cnx_repository_url }}`
 cnx_ifix_installer | updateInstaller.zip | updateInstaller file to download from `{{ cnx_repository_url }}`
 cnx_ifix_backup | yes | -featureCustomizationBackedUp option to be provided to the updateInstaller
 restrict_reader_access | *none* - optional | true will set application roles to All Authenticated in Application's Realm when running the `connections-restrict-access.yml` playbook
-restrict_reader_access__trusted_realms | *none* - optional | true will set application roles to All Authenticated in Trusted Realm when running the `connections-restrict-access.yml` playbook 
+restrict_reader_access__trusted_realms | *none* - optional | true will set application roles to All Authenticated in Trusted Realm when running the `connections-restrict-access.yml` playbook
+
 
 ### Docs Variables
 Name | Default | Description
@@ -230,7 +238,8 @@ conversion_install_folder | DocsConversion | Conversion program folder name
 editor_install_folder | DocsEditor | Editor program folder name
 viewer_install_folder | DocsViewer | Viewer program folder name
 proxy_install_folder | DocsProxy | Docs Proxy program folder name
-setup_connections_docs | false | true will run the Connections Docs database setup in `setup-connections-wizards.yml` playbook 
+setup_connections_docs | false | true will run the Connections Docs database setup in `setup-connections-wizards.yml` playbook
+cnx_docs_force_repopulation | false | true will drop the Docs databases and recreate it in setup-connections-wizards.yml playbook
 docs_username | docsuser | Docs database user
 docs_password | *none* - required | Password for the user to be created for job target creation
 sudo_group | *none* - required | Group for the user to be created for job target creation
@@ -241,7 +250,6 @@ viewer_cluster_name | HCLViewerCluster | Docs Viewer cluster name
 docs_proxy_cluster_name | HCLDocsProxyCluster | Docs Proxy cluster name
 db_concord_username | DOCSUSER | Docs database user
 db_concord_password | *none* - required | Docs database user password
-cnx_docs_force_repopulation | false | true will drop the Docs databases and recreate it in setup-connections-wizards.yml playbook
 docs_url  | *none* - required | Docs frontend hostname, typically the same as `{{ cnx_application_ingress }}`
 docs_shared_storage_type | nfs | Set to `nfs` if Docs data is a NFS share, `local` if it is a local directory
 docs_data_remote_path | /nfs/docs_data| NFS share of Docs data dir, `{{ docs_shared_storage_type }}` must be nfs to use it
@@ -268,6 +276,7 @@ overlay2_enabled | true | true enables OverlayFS storage driver
 kubernetes_version | 1.19.11 | Kubernetes version to be installed
 kube_binaries_install_dir | /usr/bin | kuberneters binary install directory
 kube_binaries_download_url | https://storage.googleapis.com/kubernetes-release/release | kuberneters binary download path
+ic_internal | localhost | Connections server internal frontend host (eg. IHS host)
 load_balancer_dns | localhost | Specify a DNS name for the control plane.
 pod_subnet | 192.168.0.0/16 | Specify range of IP addresses for the pod network. If set, the control plane will automatically allocate CIDRs for every node.
 kubectl_user |  ansible_env['SUDO_USER'] | Kubectl is setup for all the users listed here
@@ -275,9 +284,109 @@ calico_version | 3.11 | Calico version to be installed
 calico_install_latest | true | true installs/Upgrades Calico to the latest version
 helm_version | 3.6.1 | Helm version to be installed
 
+
+### Component Pack Variables
+Name | Default | Description
+---- | --------| -------------
+component_pack_download_location | http://localhost:8000 | Component Pack zip download location
+component_pack_package_name | hybridcloud_latest.zip | Component Pack zip file name
+component_pack_extraction_folder | /opt/hcl-cnx-component-pack | location to extract the Component Pack zip
+enable_pod_auto_scaling | true | Scale the number of replicas based on the number of workers
+cp_replica_count | 1 | replica count to set in Helm charts for infrastructure, Orient Me and other apps
+skip_pod_checks | true | True will check if pods are in Running state during setup_infrastructure
+skip_connections_integration | false | True will skip profiles migration for Orient Me, Activities Plus, Outlook Desktop Plugin, ES metrics and MS Teams integration
+skip_configure_redis | false | True will skip Redis configuration. Redis is required for Orient Me, so only skip if you do not plan to deploy Orient Me
+credentials_name | myregkey | Kubernetes secret name for Docker registry credentials
+es_key_password | password | Elasticsearch Key password
+es_ca_password | password | Elasticsearch CA password
+redis_secret | password |  Redis secret used in bootstrap
+search_secret | password | search secret used in bootstrap
+solr_secret | password | Solr secret used in bootstrap
+default_namespace | connections | Kubernetes namespace
+nfsMasterAddress | hostvars[groups['nfs_servers'][0]]['ansible_default_ipv4']['address'] | NFS master IP
+persistentVolumePath | pv-connections | Persistent volume location to be created
+ingress_multi_domain_enabled | false | Set to true when frontend is on a different domain as the Component Pack nodes
+setup_installation | true | True will prepare generated charts location, download and extract the Component Pack zip
+setup_images | true | True will run setupImages.sh to push images to Docker registry
+setup_credentials | true | True will create namespace and setup credentials for Docker registry
+setup_connections_volumes | true | True will setup connections-volumes
+setup_psp | true | True will setup Kubernetes PSP
+setup_bootstrap | true | True will run bootstrap to creates secrets and certificates for various components
+setup_connections_env | true | True will setup connections-env configmap
+setup_infrastructure | true | True will setup infrastructure for Orient Me and other apps
+setup_customizer | true | True will deploy mw-proxy and setup customizations
+elasticsearch_default_version | 7 | Default ElasticSearch version
+elasticsearch_default_port | 30098 | ElasticSearch port
+setup_elasticsearch | false | True will deploy ElasticSearch 5 (for Connections 6.5CR1)
+setup_elasticsearch7 | true | True will deploy ElasticSearch 7 (for Connections 7)
+setup_ingress | false | True will setup old ingress controller (for Connections 6.5CR1)
+setup_community_ingress | true | True will setup community ingress controller (for Connections 7 onwards)
+setup_tailored_exp | true | True will deploy Tailored Experience features for communities (for Connections 7 onwards)
+setup_orientme | true | True will deploy Orient Me (make sure the corresponding setup_elasticsearch7 var is set to true)
+setup_sanity | true | True will deploy sanity-watcher
+setup_kudosboards | true | True will deploy Activities Plus, must have a license key (defined in kudos_boards_licence) for the feature to work
+kudos_boards_licence | *none* | Activities Plus license key
+setup_elasticstack | false | True will setup ElasticStack
+setup_elasticstack7 | false | True will setup ElasticStack7
+setup_outlook_addin | true | True will deploy Outlook Desktop Plugin
+enable_es_metrics | true | True will configure ElasticSearch
+enable_gk_flags | true | True will configure Tailored Experience features for communities (for Connections 7 onwards)
+setup_teams | true | True will deploy Microsoft Teams integration (for Connections 7 onwards)
+setup_ms_teams_extensions | true | True will Microsoft Teams extensions (for Connections 7 onwards)
+integrations_msteams_tenant_id | changeme | Tenant ID to configure Microsoft Teams integration
+integrations_msteams_client_id | changeme | Client ID to configure Microsoft Teams integration
+integrations_msteams_client_secret | changeme | Kubernetes secret name for Microsoft Teams integration
+integrations_msteams_auth_schema | 0 | Auth schema to configure Microsoft Teams integration
+
+
 ### NFS Variables
 Name | Default | Description
 ---- | --------| -------------
+preserve_nfs_data | true | true will preserve NFS data when running the cleanup playbooks
+
+
+### Cleanup Variables
+Name | Default | Description
+---- | --------| -------------
 preserve_nfs_data | true | true will preserve NFS data
-
-
+force_destroy_kubernetes | false | True will remove Kubernetes and Helm when running the corresponding cleanup playbook
+force_destroy_containerd_images | false | True will remove the images in containerd (if any) when running the corresponding cleanup playbook
+force_destroy_ihs | false | True will remove IHS when running the cleanup playbook
+force_destroy_websphere | false | True will remove WebSphere (including Connections) when running the corresponding cleanup playbook
+force_destroy_docs | false | True will delete Docs NFS data when running the corresponding cleanup playbook
+force_destroy_db2 | false | True will kill all DB2 process and delete DB2 folder when running the corresponding cleanup playbook
+force_destroy_oracle | false | True will kill all Oracle process and delete Oracle folder when running the corresponding cleanup playbook
+persistentVolumePath | pv-connections | Persistent volume location to be created
+helm_install_dir | /opt/helm | Helm install directory
+ansible_cache | /tmp/k8s_ansible | Ansible cache location
+kube_dir | /root/.kube | Kubernetes directory path
+docker_registry_dir | /etc/docker/registry | Docker registry directory path
+kubernetes_etc_dir | /etc/kubernetes | Kubernetes directory path
+etcd_dir | /var/lib/etcd | etcd directory
+db2_instance_fenced_homedir | /home/db2fenc1 | Fenced user home directory
+db2_instance_homedir | /home/db2inst1 | DB2 Instance owner home directory
+db_installation_folder_dir | /opt/IBM/db2 | DB2 installation directory
+ihs_install_location | /opt/IBM/HTTPServer | IHS installation directory
+iim_install_location | /opt/IBM/InstallationManager | IIM program folder
+var_ibm_base_location | /var/ibm | var IBM base location
+websphere_base_location | /opt/IBM/WebSphere | Websphere base location
+imshared_location | /opt/IBM/IMShared | IIM config folder
+ora_rsp_oracle_base | /opt/oracle | Oracle database base location
+oraclfmap_oracle_base | /opt/ORCLfmap | Oracle database ORCLfmap location
+oracltab_oracle_base | /etc/oratab | Oracle database oracltab base location
+orainst_oracle_base | /etc/oraInst.loc | Oracle database orainst base location
+oracle_temp | /tmp/.oracle | Oracle temp folder path
+nfs_master_source | /pv-connections | Persistent volume location to be deleted
+cnx_message_store | /opt/HCL/MessageStore | Connections bus SIB location mount point
+cnx_message_store_nfs | /nfs/data/messageStores | Connections bus SIB NFS share
+cnx_shared_area | /opt/IBM/SharedArea | Connections shared data location mount point
+cnx_shared_area_nfs | /nfs/data/shared | Connections shared data NFS share
+customizer_js_files_mount | /mnt/customizations | Customization files mount point folder in Component Pack
+viewer_data_local_path | /mnt/viewer_data | path of local location to Docs Viewer data dir, if {{ viewer_shared_storage_type }} is nfs, {{ viewer_data_remote_path }} will mount to this directory
+viewer_data_remote_path | /nfs/viewer_data | NFS share of Docs Viewer data dir, {{ viewer_shared_storage_type }} must be nfs to use it
+docs_data_remote_path | /nfs/docs_data | NFS share of Docs data dir, {{ docs_shared_storage_type }} must be nfs to use it
+docs_data_local_path | /mnt/docs_data | path of local location to Docs data dir, if {{ docs_shared_storage_type }} is nfs, {{ docs_data_remote_path }} will mount to this directory
+cnx_data_remote_path | /nfs/data/shared | NFS share of Connections data dir, {{ cnx_shared_storage_type }} must be nfs to use it
+cnx_data_local_path | /mnt/cnx_data | path of local location to Connections data dir, if {{ cnx_shared_storage_type }} is nfs, {{ cnx_data_remote_path }} will mount to this directory
+nfs_master_files_mount | /mnt/pv-connections | Persistent volume mount point folder in Component Pack
+cnx_install_base_dir | /opt/HCL/ | Base directory of connections installation
