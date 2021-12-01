@@ -283,6 +283,7 @@ kubectl_user |  ansible_env['SUDO_USER'] | Kubectl is setup for all the users li
 calico_version | 3.11 | Calico version to be installed
 calico_install_latest | true | true installs/Upgrades Calico to the latest version
 helm_version | 3.6.1 | Helm version to be installed
+haproxy_version | 2.4.0 | HAProxy version to be installed
 
 
 ### Component Pack Variables
